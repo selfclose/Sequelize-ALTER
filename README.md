@@ -9,6 +9,7 @@ _(I'm not own this script, The credit goes [here](https://github.com/meyer9/sequ
 
 ```javascript
 var Sequelize = require('sequelize');
+var lod = require('lodash'); //Already come with Sequelize
 
 var sequelize = new Sequelize('my-db', 'my-username', 'my-password', {
     host: 'localhost',
@@ -28,14 +29,14 @@ var sequelize = new Sequelize('my-db', 'my-username', 'my-password', {
                 if (options.alter) {
                     return self.QueryInterface.describeTable(self.getTableName(options)).then(function (columns) {
                         var changes = []; // array of promises to run
-                        _.each(attributes, function (columnDesc, columnName) {
+                        lod.each(attributes, function (columnDesc, columnName) {
                             //add new column if not exist
                             if (!columns[columnName]) {
                                 console.log('add new column: '+columnName);
                                 changes.push(self.QueryInterface.addColumn(self.getTableName(options), columnName, attributes[columnName]));
                             }
                         });
-                        _.each(columns, function (columnDesc, columnName) {
+                        lod.each(columns, function (columnDesc, columnName) {
                             //delete column if no longer
                             if (!attributes[columnName]) {
                                 console.log('remove column: '+columnName);
