@@ -3,7 +3,7 @@ When you are developing your app with sequelize, Some time need to add/remove co
 
 Now just add simple hook to help you Auto Add-Remove column when it's new or no longer anymore
 
-_(I'm not own this script, The credit goes [here](https://github.com/meyer9/sequelize/commit/5945d1087a81c4fcbd1a819c654e5064c13a1ef2).)_
+_(I'm not own this script, The credit goes [here](https://github.com/meyer9/sequelize/commit/5945d1087a81c4fcbd1a819c654e5064c13a1ef2))_, I made it work on hooking ('cuz I can't wait for an update), 
 
 **(No script for download... just copy it...)**
 
