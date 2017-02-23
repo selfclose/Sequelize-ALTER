@@ -24,33 +24,32 @@ var sequelize = new Sequelize('my-db', 'my-username', 'my-password', {
     define: {
         hooks: {
             beforeSync: function (options) {
-                var self = this
-                    , attributes = this.tableAttributes;
-                    if (options.alter) {
-                        return self.QueryInterface.describeTable(self.getTableName(options))
-                            .then(function (columns) {
-                                var changes = []; // array of promises to run
-                                _.each(attributes, function (columnDesc, columnName) {
-                                    //add new column if not exist
-                                    if (!columns[columnName]) {
-                                        changes.push(self.QueryInterface.addColumn(self.getTableName(options), columnName, attributes[columnName]));
-                                    }
-                                });
-                                _.each(columns, function (columnDesc, columnName) {
-                                    if (!attributes[columnName]) {
-                                        //delete column if no longer
-                                        changes.push(self.QueryInterface.removeColumn(self.getTableName(options), columnName, options));
-                                    } else {
-                                        //still bug with primary key, unique etc. Don't use it for now.
-                                        // if (!attributes[columnName].primaryKey) {
-                                        //     changes.push(self.QueryInterface.changeColumn(self.getTableName(options), columnName, attributes[columnName]));
-                                        // }
-                                    }
-                                });
-                                return Promise.all(changes);
-                            });
-                    }
-
+                var self = this, attributes = this.tableAttributes;
+                if (options.alter) {
+                    return self.QueryInterface.describeTable(self.getTableName(options)).then(function (columns) {
+                        var changes = []; // array of promises to run
+                        _.each(attributes, function (columnDesc, columnName) {
+                            //add new column if not exist
+                            if (!columns[columnName]) {
+                                console.log('add new column: '+columnName);
+                                changes.push(self.QueryInterface.addColumn(self.getTableName(options), columnName, attributes[columnName]));
+                            }
+                        });
+                        _.each(columns, function (columnDesc, columnName) {
+                            //delete column if no longer
+                            if (!attributes[columnName]) {
+                                console.log('remove column: '+columnName);
+                                changes.push(self.QueryInterface.removeColumn(self.getTableName(options), columnName, options));
+                            } else {
+                                //still bug with primary key, unique etc. Don't use it for now.
+                                // if (!attributes[columnName].primaryKey) {
+                                //     changes.push(self.QueryInterface.changeColumn(self.getTableName(options), columnName, attributes[columnName]));
+                                // }
+                            }
+                        });
+                        return Promise.all(changes);
+                    });
+                }
             }
         }
     }
