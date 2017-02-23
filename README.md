@@ -1,12 +1,11 @@
 # Sequelize-ALTER
-When your developing your app with sequelize, No need to {force: true} for destroy your data, Just simple hook to put in sequelize for ALTER table
+When you are developing your app with sequelize, Some time need to add/remove column just for a little change, Why I need to wipe all data with `{force: true}`?.
 
-* Auto Add-Remove Table when it's new or no longer anymore
+Now just add simple hook to help you Auto Add-Remove column when it's new or no longer anymore
 
-Sequelize
-Just add this hook and you ready to go
+_(I'm not own this script, The credit goes [here](https://github.com/meyer9/sequelize/commit/5945d1087a81c4fcbd1a819c654e5064c13a1ef2).)_
 
-When you starting define 
+**(No script for download... just copy it...)**
 
 ```javascript
 var Sequelize = require('sequelize');
@@ -14,7 +13,6 @@ var Sequelize = require('sequelize');
 var sequelize = new Sequelize('my-db', 'my-username', 'my-password', {
     host: 'localhost',
     dialect: 'mysql',
-    logging: true, //Show logging on console?
 
     pool: {
         max: 5,
@@ -22,7 +20,7 @@ var sequelize = new Sequelize('my-db', 'my-username', 'my-password', {
         idle: 10000
     },
     
-    //Add this hook below
+    //----- Copy this hook below -----//
     define: {
         hooks: {
             beforeSync: function (options) {
